@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Rally design tokens — lifted from Figma node 340:1452.
+   The file publishes no Figma variables, so these are the raw
+   comp values, named once here and used everywhere else.
+   ───────────────────────────────────────────────────────────── */
+@theme {
+  --color-green: #1e5c3a;
+  --color-green-deep: #163d27;
+  --color-ink: #0a0a0a;
+  --color-grey: #707070;
+  --color-orange: #f06422;
+  --color-paper: #ffffff;
+
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* The comp is drawn at 1512px wide with a 1312px content column. */
+  --spacing-shell: 1312px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Breakpoint at the comp's own width, so we can pin desktop values there. */
+@theme {
+  --breakpoint-2xl: 1512px;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  /* Instrument Sans is a variable font; every text node in the comp
+     carries this width axis setting. */
+  font-variation-settings: "wdth" 100;
+  overflow-x: hidden;
+}
+
+/* Lenis drives scroll on the <html> element. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@layer components {
+  /* The 1312px content column. Past 1512px the column caps and the
+     gutters absorb the extra width, so ultrawide screens stay composed. */
+  .shell {
+    width: 100%;
+    max-width: var(--spacing-shell);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .shell {
+      padding-inline: 3.5rem;
+    }
+  }
+  @media (min-width: 1512px) {
+    .shell {
+      padding-inline: 0;
+    }
+  }
+}
+
+@layer utilities {
+  /* Display type. Figma sizes are the clamp ceilings; the vw term keeps
+     the ratio to the 1512 comp so nothing reflows awkwardly on the way down. */
+  .type-hero {
+    /* 8.4vw reproduces the comp's 125.73px at 1512 wide; the vh term keeps a
+       short window from turning that into a headline taller than the fold. */
+    font-size: clamp(2.5rem, min(8.4vw, 13.5vh), 7.858rem);
+    line-height: 0.85;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .type-display {
+    font-size: clamp(2rem, 4.2vw, 3.929rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .type-finder {
+    font-size: clamp(2.25rem, 5.3vw, 5rem);
+    line-height: 0.875;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .type-product {
+    font-size: clamp(1.75rem, 3vw, 2.858rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .type-eyebrow {
+    font-size: 0.625rem;
+    line-height: 1.5;
+    letter-spacing: 0.3em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .type-nav {
+    font-size: 0.75rem;
+    line-height: 1.375;
+    letter-spacing: 0.128em;
+    text-transform: uppercase;
+  }
+  .type-body {
+    font-size: 0.875rem;
+    line-height: 1.625;
+  }
+  /* Button labels in the comp are sentence case with no extra tracking —
+     unlike the nav, which is uppercase and widely tracked. */
+  .type-button {
+    font-size: 0.75rem;
+    line-height: 1.25;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .type-label {
+    font-size: 0.5625rem;
+    line-height: 1.5;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  /* Used by RevealText — the mask each line rises out of. */
+  .line-mask {
+    display: block;
+    overflow: hidden;
+  }
+}
+
+/* Nothing moves for anyone who has asked the OS for less motion.
+   MotionConfig handles the JS side; this covers CSS transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--color-green);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-green);
+  outline-offset: 3px;
+}
