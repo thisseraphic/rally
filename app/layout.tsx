@@ -30,6 +30,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={instrumentSans.variable}>
       <body className="font-sans antialiased">
+        {/* Inflight review widget. This layout renders no explicit <head>,
+            so the tag sits at the top of the body and React hoists it. */}
+        <script
+          src="https://inflight.co/widget.js"
+          data-org="gv9a8gtr"
+          async
+        ></script>
         <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
